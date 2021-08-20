@@ -11,6 +11,7 @@ import (
 	"github.com/kovey/logger-go/monitor"
 	"github.com/kovey/rpc-go/protocol"
 	"github.com/kovey/server-go/server"
+	"github.com/kovey/server-go/util"
 )
 
 type RpcEvent struct {
@@ -33,7 +34,7 @@ func (e RpcEvent) Receive(s *server.Server, ev *server.Event) {
 	request := protocol.NewRequest()
 	json.Unmarshal(ev.Body(), request)
 	monLog := getMonitor(request)
-	spanId := SpanId()
+	spanId := util.SpanId()
 	monLog.SpanId = spanId
 	defer func(monLog *monitor.Monitor) {
 		err := recover()

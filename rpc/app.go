@@ -51,7 +51,7 @@ func Run(confPath string, before func(app *App, config *config.Config), after fu
 	servConf := server.NewConfig(conf.Server.Package.OpenCheck, conf.Server.Package.BodyLenOffset, conf.Server.Package.HeaderLen, server.INT_32)
 	app = NewApp(servConf, confPath)
 	logger.SetLevelByName(conf.Logger.Level)
-	logger.GetInstance().SetDir(conf.Logger.LogDir).SetLevelByName(conf.Logger.Level)
+	logger.GetInstance().SetDir(conf.Logger.LogDir + "/error").SetLevelByName(conf.Logger.Level)
 	monitor.Init(conf.Logger.LogDir + "/monitor")
 
 	app.server = server.NewServer(conf.Server.Host, conf.Server.Port, server.SOCKET_TCP)

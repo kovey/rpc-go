@@ -2,6 +2,8 @@ github.com/go-sql-driver/mysql v1.6.0 h1:BCTh4TKNUYmOmMUcQ3IipzF5prigylS7XXjEkfC
 github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/kovey/config-go v0.0.1 h1:PtQEkZRsx6AO95AEhBjE73Dc28eYQudfCrrJpjBPeWc=
 github.com/kovey/config-go v0.0.1/go.mod h1:jrLdE0TxqUKK4cTyQSvMQruYLCbnI6uDSYNfObDQ9lo=
+github.com/kovey/config-go v0.0.3 h1:3gq1KPmI51P+08kZBu02dntPvBXWIHKNAqo92mxJ4o4=
+github.com/kovey/config-go v0.0.3/go.mod h1:jrLdE0TxqUKK4cTyQSvMQruYLCbnI6uDSYNfObDQ9lo=
 github.com/kovey/logger-go v0.0.1 h1:oXbfCfw/9MIDn6jieCA5Uxe+KFcAIHWSGgqzuaX0+n0=
 github.com/kovey/logger-go v0.0.1/go.mod h1:x7AnVVx/y5tYjV5UzxU+X3CaJLtB7/Fk6ghuzkN84pA=
 github.com/kovey/logger-go v0.0.2 h1:iGQMoAvxhoFoTKJZVUuefOwNHcX24YnXqU2PbHjJjnQ=
@@ -10,6 +12,8 @@ github.com/kovey/logger-go v0.0.3 h1:0gE7TeY4xxNEpHipaKgkB/x92GAO9e2FmkbTCDWIE/Q
 github.com/kovey/logger-go v0.0.3/go.mod h1:x7AnVVx/y5tYjV5UzxU+X3CaJLtB7/Fk6ghuzkN84pA=
 github.com/kovey/server-go v0.0.1 h1:le4R1lU3ocRDkKQmuw9T+s+PFGw4r6Pcib4OQcDVePk=
 github.com/kovey/server-go v0.0.1/go.mod h1:6E7ogHNsr3LdkG8QqMqUWvwQz2vChyerbbkxBC9PHa0=
+github.com/kovey/server-go v0.0.2 h1:+XucLTH8VLvM8p81ZqXkOUw7xi2qXIBhNU7FjI2mWEQ=
+github.com/kovey/server-go v0.0.2/go.mod h1:7E4aGqM0ECFNs9qx9RouYmNvdnJx/geIbV9BlP/mdYk=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie2QXMNeKRTHCNY2nXvo=
