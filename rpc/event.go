@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/json"
+	"fmt"
+	"time"
 
 	"github.com/kovey/logger-go/logger"
+	"github.com/kovey/logger-go/monitor"
 	"github.com/kovey/rpc-go/protocol"
 	"github.com/kovey/server-go/server"
 )
@@ -29,36 +32,54 @@ func (e RpcEvent) Receive(s *server.Server, ev *server.Event) {
 	logger.Debug("receive msg: %s", string(ev.Body()))
 	request := protocol.NewRequest()
 	json.Unmarshal(ev.Body(), request)
+	monLog := getMonitor(request)
+	spanId := SpanId()
+	monLog.SpanId = spanId
+	defer func(monLog *monitor.Monitor) {
+		err := recover()
+		monLog.Trace = getTrace(err)
+		monLog.Err = ""
+		if err != nil {
+			s.Close(ev.Fd())
+			monLog.Err = fmt.Sprintf("%s", err)
+		}
+
+		monLog.End = time.Now().UnixNano() / 1e6
+		monLog.Delay = float64(monLog.End-monLog.RequestTime) / 1e6
+		monitor.Write(*monLog)
+	}(monLog)
+
 	if request.Path == "" || request.Method == "" {
 		e.Error(s, ev.Fd(), "protocol_exception", "path or method is empty.", "")
 		s.Close(ev.Fd())
 		logger.Debug("path[%s] or method[%s] is empty", request.Path, request.Method)
+		monLog.Type = "protocol_exception"
+		monLog.Err = "path or method is empty."
+		monLog.Trace = ""
 		return
 	}
-
-	defer func(req *protocol.Request, begin float64) {
-		data := make(map[string]interface{})
-		end := time.Now().UnixNano()
-		data["delay"] = end - begin
-		data["request_time"] = begin
-		data["type"] = "success"
-		monitor.Write(data)
-	}(request, time.Now().UnixNano())
 
 	router, err := Get(request.Path, request.Method)
 	if err != nil {
 		logger.Debug("router[%s] is not exists", request.Path)
 		e.Error(s, ev.Fd(), "exception", "router is not exists", "")
 		s.Close(ev.Fd())
+		monLog.Type = "exception"
+		monLog.Err = "router is not exists"
+		monLog.Trace = ""
 		return
 	}
 
-	result, err := router.Call(request.Args...)
+	result, err := router.Call(request, spanId)
 	if err != nil {
 		e.Error(s, ev.Fd(), "busi_exception", err.Error(), "")
+		monLog.Type = "busi_exception"
+		monLog.Err = err.Error()
+		monLog.Trace = ""
 		return
 	}
 
+	monLog.Response = result
 	e.Success(s, ev.Fd(), result)
 }
 

@@ -3,6 +3,7 @@ package client
 import (
 	"encoding/json"
 	"errors"
+
 	"github.com/kovey/rpc-go/protocol"
 	"github.com/kovey/server-go/server"
 )
@@ -10,17 +11,17 @@ import (
 type Service struct {
 	cli        *Client
 	traceId    string
-	spandId    string
+	spanId     string
 	from       string
 	version    string
 	clientLang string
 	path       string
 }
 
-func NewService(host string, port int, path string, traceId string, spandId string, from string) Service {
+func NewService(host string, port int, path string, traceId string, spanId string, from string) Service {
 	return Service{
 		cli:  NewClient(host, port, server.NewConfig(true, 0, 4, server.INT_32)),
-		path: path, traceId: traceId, spandId: spandId, from: from,
+		path: path, traceId: traceId, spanId: spanId, from: from,
 		version: "1.0.0", clientLang: "golang",
 	}
 }
@@ -38,7 +39,7 @@ func (s Service) Call(method string, args ...interface{}) (json.RawMessage, erro
 	request.Method = method
 	request.Args = args
 	request.TraceId = s.traceId
-	request.SpanId = s.spandId
+	request.SpanId = s.spanId
 	request.From = s.from
 	request.Version = s.version
 	request.ClientLang = s.clientLang

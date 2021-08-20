@@ -3,6 +3,7 @@ package rpc
 import (
 	"github.com/kovey/config-go/config"
 	"github.com/kovey/logger-go/logger"
+	"github.com/kovey/logger-go/monitor"
 	"github.com/kovey/rpc-go/router"
 	"github.com/kovey/server-go/server"
 )
@@ -51,6 +52,7 @@ func Run(confPath string, before func(app *App, config *config.Config), after fu
 	app = NewApp(servConf, confPath)
 	logger.SetLevelByName(conf.Logger.Level)
 	logger.GetInstance().SetDir(conf.Logger.LogDir).SetLevelByName(conf.Logger.Level)
+	monitor.Init(conf.Logger.LogDir + "/monitor")
 
 	app.server = server.NewServer(conf.Server.Host, conf.Server.Port, server.SOCKET_TCP)
 	app.server.Set(app.config)
